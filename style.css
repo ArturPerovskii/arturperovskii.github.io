@@ -63,3 +63,25 @@ footer {
   font-size: 0.9rem;
   margin-top: 4rem;
 }
+
+.apropos-container {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.apropos-texte {
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.apropos-photo {
+  flex: 0 0 200px;
+}
+
+.apropos-photo img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
