@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LIDAR 3D</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header>
+    <h1>Système de navigation laser – LIDAR 3D</h1>
+    <p>Mécatronique • Raspberry Pi • OpenCV • Servomoteurs</p>
+  </header>
+
+  <section class="section">
+
+	<figure style="text-align: center; margin: 2rem 0;">
+  <img src="../images/LIDARComm.png" alt="LIDAR" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem;">
+  <figcaption style="font-size: 0.9em; color: #666; margin-top: 0.5rem;">
+    Fig. 1 – Dispositif de télémétrie 3D par triangulation(LIDAR)
+  </figcaption>
+</figure>
+    
+  </section>
+  
+   <section class="section">
+	<h2>Contexte et motivation</h2>
+
+  <p style="margin-bottom: 1rem;">
+    Les systèmes autonomes (drones, robots, aspirateurs) doivent éviter les obstacles 
+    et cartographier leur environnement.  
+    La télémétrie optique, notamment par <strong>temps de vol</strong> (ToF), est précise mais souvent coûteuse. 
+    Une alternative plus abordable est la <strong>triangulation</strong>, qui permet d’estimer les distances 
+    via le décalage angulaire d’un faisceau lumineux réfléchi.
+  </p>
+
+  <p style="margin-bottom: 1rem;>
+    Ce projet a consisté à concevoir un <strong>capteur de télémétrie par triangulation low-cost</strong>, 
+    capable de détecter et scanner les obstacles dans l’environnement d’un robot mobile.
+  </p>
+  
+  <p style="margin-bottom: 1rem;>
+    Projet réalisé dans le cadre du <a href="../experience/astek.html"> stage fin d'étude au sein d'ASTEK Innovation Lab en 2023</a>.
+  </p>
+  </section>
+
+<section class="section">
+  <h2>Principe de fonctionnement</h2>
+	
+	<figure style="text-align: center; margin: 2rem 0;">
+  <img src="../images/triangulation.jpg" alt="Triangulation" style="max-width: 80%; border-radius: 8px; margin-bottom: 1.5rem;">
+  <figcaption style="font-size: 0.9em; color: #666; margin-top: 0.5rem;">
+    Fig. 2 – Principe de triangulation (source https://orange520.blogspot.com/
+  </figcaption>
+</figure>
+
+	<div style="height: 1rem;"></div>
+	
+  <p style="margin-bottom: 1rem;>
+    Le dispositif utilise un laser et une caméra fixés à une distance connue, appelée <em>baseline</em> (<em>ligne de base</em>), pour mesurer la distance aux obstacles par triangulation optique.
+  </p>
+
+  <p style="margin-bottom: 1rem;>
+    Lorsque le faisceau laser est réfléchi par un objet, la caméra détecte la position du point lumineux sur son image. 
+    En comparant cette position à la géométrie du système, la distance à l’obstacle peut être calculée.
+  </p>
+
+  <p>
+     Ce principe permet de concevoir un capteur de profondeur simple, précis et économique. 
+  En ajoutant un système d’orientation du faisceau laser, il devient possible de scanner l’espace environnant et de générer une carte 3D des obstacles.
+  </p>
+</section>
+
+<section class="section">
+  <h2>Conception du dispositif</h2>
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="../images/orient.png" alt="Système de miroirs" style="max-width: 80%; border-radius: 8px; margin-bottom: 1.5rem;">
+  <figcaption style="font-size: 0.9em; color: #666; margin-top: 0.5rem;">
+    Fig. 3 – Système de miroirs orientables pour le balayage laser
+  </figcaption>
+</figure>
+	<div style="height: 1rem;"></div>
+  <p>
+    Le dispositif repose sur une architecture originale : deux miroirs montés sur servomoteurs, disposés en croix, permettent d’orienter précisément le faisceau laser et de couvrir un large champ de vision.
+  </p>
+
+  <p>
+    Pour garantir une mesure fiable malgré une <strong>ligne de base très courte</strong>, une modélisation mathématique du système a été réalisée, intégrant les imprécisions mécaniques. 
+    Elle a servi de base à un <strong>algorithme de calibration</strong> automatique.
+  </p>
+
+  <p>
+    Un châssis compact a été conçu en <strong>CAO</strong> et optimisé pour l’impression 3D, assurant un alignement précis des composants.
+  </p>
+</section>
+
+<section class="section">
+  <h2>Réalisation et programmation</h2>
+
+  <p>
+    Après l’impression du châssis, tous les composants ont été installés manuellement. 
+    Les miroirs ont été fixés sur deux micro-servomoteurs positionnés en croix, tandis que l’ensemble caméra/laser a été aligné avec précision. 
+    Un circuit d’alimentation en <strong>12&nbsp;V</strong> a été mis en place pour les moteurs, avec régulation et distribution intégrées.
+  </p>
+
+  <p>
+    Le système est piloté par un <strong>Raspberry Pi</strong>, qui assure à la fois le contrôle des servomoteurs et le calcul des distances. 
+    Un <strong>régulateur PID</strong> a été implémenté et <strong>finement réglé</strong> pour garantir une orientation fluide, stable et réactive du faisceau laser pendant le balayage.
+  </p>
+
+  <p>
+    L’analyse d’image est réalisée en temps réel à l’aide de <strong>OpenCV</strong>, permettant de détecter précisément la position du point laser. 
+    L’ensemble du logiciel, y compris la commande des moteurs, le traitement d’image et la calibration, a été entièrement développé en <strong>Python</strong>.
+  </p>
+</section>
+
+
+  <footer>
+    <p><a href="../index.html">← Retour à l'accueil</a></p>
+  </footer>
+</body>
+</html>
